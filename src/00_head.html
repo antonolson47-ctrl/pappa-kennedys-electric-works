@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pappa Kennedy's Electric Works</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#07040a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Pappa Kennedy">
+<meta name="format-detection" content="telephone=no">
+<meta name="description" content="Pappa Kennedy's Electric Works: a funky neon falling-block wiring puzzle. Complete rows, wire up the funk, light up the night.">
+<!--PWA-LINKS-->
+<style>
+html,body{margin:0;height:100%;background:#07040a;overflow:hidden;color:#fff;font-family:'Trebuchet MS','Avenir Next',Verdana,Arial,sans-serif;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;overscroll-behavior:none;touch-action:none;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{position:fixed;inset:0}
+:root{--fs:16px;--grv:'Cooper Black','Bookman Old Style','Chalkboard SE','Marker Felt','Arial Rounded MT Bold','Trebuchet MS',sans-serif}
+#cv{position:absolute;left:0;top:0;width:100%;height:100%;display:block;touch-action:none;background:#07040a}
+#ui{position:fixed;inset:0;pointer-events:none;z-index:20}
+#ui > *{pointer-events:auto}
+.sheet{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom) + 10px);width:min(94vw,560px);max-height:var(--shH,56vh);box-sizing:border-box;background:rgba(10,4,18,.9);border:3px solid #ff2bd6;border-radius:18px;box-shadow:0 0 6px #ff2bd6,0 0 22px rgba(255,43,214,.55),inset 0 0 14px rgba(255,43,214,.35),0 8px 30px #000;padding:12px 16px 10px;font-size:var(--fs);line-height:1.3;display:flex;flex-direction:column;animation:pop .22s ease-out}
+.sheet.center{bottom:auto;top:50%;transform:translate(-50%,-50%);max-height:calc(100% - 20px);animation:popc .22s ease-out}
+.sheet.cyan{border-color:#29f3ff;box-shadow:0 0 6px #29f3ff,0 0 22px rgba(41,243,255,.5),inset 0 0 14px rgba(41,243,255,.3),0 8px 30px #000}
+.sheet.gold{border-color:#ffe23a;box-shadow:0 0 6px #ffe23a,0 0 22px rgba(255,226,58,.5),inset 0 0 14px rgba(255,226,58,.3),0 8px 30px #000}
+.sheet.red{border-color:#ff3b5c;box-shadow:0 0 6px #ff3b5c,0 0 22px rgba(255,59,92,.6),inset 0 0 14px rgba(255,59,92,.35),0 8px 30px #000}
+.sheet.clear{background:transparent;border:0;box-shadow:none;padding:0}
+.sheet .scroll{overflow-y:auto;-webkit-overflow-scrolling:touch;touch-action:pan-y;overscroll-behavior:contain;min-height:0;flex:1 1 auto}
+@keyframes pop{from{opacity:0;transform:translateX(-50%) scale(.92)}to{opacity:1;transform:translateX(-50%) scale(1)}}
+@keyframes popc{from{opacity:0;transform:translate(-50%,-50%) scale(.92)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+.sheet h2{margin:0 0 6px;font:900 calc(var(--fs)*1.45)/1.1 var(--grv);color:#fff;text-align:center;letter-spacing:1px;text-shadow:0 0 4px #ff2bd6,0 0 10px #ff2bd6,0 0 22px #ff2bd6}
+.sheet.cyan h2{text-shadow:0 0 4px #29f3ff,0 0 10px #29f3ff,0 0 22px #29f3ff}
+.sheet.gold h2{text-shadow:0 0 4px #ffb21f,0 0 10px #ffb21f,0 0 22px #ff8a1f}
+.sheet.red h2{text-shadow:0 0 4px #ff3b5c,0 0 10px #ff3b5c,0 0 22px #ff3b5c}
+.sheet h3{margin:8px 0 3px;font:900 var(--fs) var(--grv);color:#ffe23a;text-shadow:0 0 8px rgba(255,226,58,.7)}
+.sheet p{margin:4px 0}
+.quote{font-weight:bold;font-style:italic;color:#ffd4f6;text-align:center;margin:4px 0 6px}
+.small{font-size:calc(var(--fs)*.78);color:#d9c6ef}
+.ctr{text-align:center}
+.row{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-top:8px}
+button.btn{font:900 calc(var(--fs)*1.0) var(--grv);background:rgba(20,6,34,.85);color:#fff;border:3px solid #29f3ff;border-radius:999px;padding:8px 18px;min-height:48px;min-width:48px;cursor:pointer;letter-spacing:.5px;touch-action:manipulation;text-shadow:0 0 6px #29f3ff;box-shadow:0 0 8px rgba(41,243,255,.6),inset 0 0 8px rgba(41,243,255,.3)}
+button.btn:hover,button.btn.sel{background:rgba(41,243,255,.22)}
+button.btn:active{transform:scale(.96)}
+button.btn.pink{border-color:#ff2bd6;text-shadow:0 0 6px #ff2bd6;box-shadow:0 0 8px rgba(255,43,214,.7),inset 0 0 8px rgba(255,43,214,.35)}
+button.btn.pink:hover,button.btn.pink.sel{background:rgba(255,43,214,.25)}
+button.btn.gold{border-color:#ffe23a;text-shadow:0 0 6px #ffb21f;box-shadow:0 0 8px rgba(255,226,58,.7),inset 0 0 8px rgba(255,226,58,.35)}
+button.btn.gold:hover,button.btn.gold.sel{background:rgba(255,226,58,.22)}
+button.btn.big{font-size:calc(var(--fs)*1.3);padding:10px 30px}
+button.btn:disabled{opacity:.35}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:calc(var(--fs)*.86)}
+.kv b{color:#ffe23a;white-space:nowrap}
+.key{display:inline-block;border:2px solid #29f3ff;color:#bff9ff;border-radius:6px;padding:0 5px;margin:1px;font:bold calc(var(--fs)*.74) Verdana,Arial,sans-serif}
+.sl{display:flex;align-items:center;gap:10px;margin:8px 0;font-size:calc(var(--fs)*.9)}
+.sl span:first-child{min-width:5.5em}
+.sl input[type=range]{flex:1;height:36px;accent-color:#ff2bd6;touch-action:none}
+.sl .v{min-width:3em;text-align:right;color:#ffe23a}
+.tog{display:flex;align-items:center;gap:10px;margin:6px 0;font-size:calc(var(--fs)*.9)}
+.tog input{width:24px;height:24px;accent-color:#ff2bd6}
+.lvls{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
+.lv{position:relative;border:2px solid #3a2a50;border-radius:12px;background:rgba(0,0,0,.55);padding:4px 4px 6px;text-align:center;cursor:pointer;color:#fff;font:bold calc(var(--fs)*.72) 'Trebuchet MS',sans-serif;min-height:48px;touch-action:manipulation}
+.lv canvas{width:100%;aspect-ratio:1/1;display:block}
+.lv.on{border-color:#29f3ff;box-shadow:0 0 8px rgba(41,243,255,.5)}
+.lv.lit{border-color:#ffe23a;box-shadow:0 0 10px rgba(255,226,58,.6)}
+.lv.locked{opacity:.45;cursor:default}
+.lv .n{position:absolute;left:6px;top:4px;color:#ffe23a;font:900 calc(var(--fs)*.85) var(--grv);text-shadow:0 0 6px #ff8a1f}
+.lv.sel{outline:3px solid #ff2bd6}
+.score{font:900 calc(var(--fs)*1.25) var(--grv);color:#ffe23a;text-align:center;text-shadow:0 0 8px #ff8a1f}
+/* ---------- top buttons ---------- */
+.topb{position:fixed;z-index:30;width:44px;height:44px;border-radius:12px;border:2px solid #ff2bd6;background:rgba(14,4,24,.75);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;touch-action:none;box-shadow:0 0 8px rgba(255,43,214,.6)}
+.topb svg{width:22px;height:22px}
+.topb:active{background:rgba(255,43,214,.5)}
+.topb.hide{display:none}
+/* ---------- touch controls ---------- */
+#tc{position:fixed;inset:0;pointer-events:none;z-index:15;display:none}
+body.touch #tc.on{display:block}
+.tb{position:absolute;pointer-events:auto;touch-action:none;box-sizing:border-box;border-radius:18px;border:3px solid rgba(41,243,255,.95);background:rgba(8,20,30,.55);color:#e9fdff;font:900 11px 'Trebuchet MS',Verdana,Arial,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;line-height:1;box-shadow:0 0 10px rgba(41,243,255,.55),inset 0 0 10px rgba(41,243,255,.25);cursor:pointer;overflow:hidden;letter-spacing:1px}
+.tb svg{width:46%;height:46%;max-width:34px;max-height:34px;filter:drop-shadow(0 0 3px currentColor)}
+.tb span{margin-top:2px}
+.tb.pk{border-color:rgba(255,43,214,.95);color:#ffe0fa;background:rgba(30,6,30,.55);box-shadow:0 0 10px rgba(255,43,214,.55),inset 0 0 10px rgba(255,43,214,.25)}
+.tb.yl{border-color:rgba(255,226,58,.95);color:#fff8d0;background:rgba(30,24,4,.55);box-shadow:0 0 10px rgba(255,226,58,.55),inset 0 0 10px rgba(255,226,58,.25)}
+.tb.gr{border-color:rgba(70,255,116,.95);color:#e0ffe8;background:rgba(4,30,10,.55);box-shadow:0 0 10px rgba(70,255,116,.55),inset 0 0 10px rgba(70,255,116,.25)}
+.tb.dn{transform:scale(.93);background:rgba(41,243,255,.55);color:#001}
+.tb.pk.dn{background:rgba(255,43,214,.6)}
+.tb.yl.dn{background:rgba(255,226,58,.65)}
+.tb.gr.dn{background:rgba(70,255,116,.6)}
+</style>
+</head>
+<body>
+<canvas id="cv"></canvas>
+<div id="tc">
+  <div class="tb" data-a="left" aria-label="Left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,4 7,12 15,20"/></svg></div>
+  <div class="tb" data-a="right" aria-label="Right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,4 17,12 9,20"/></svg></div>
+  <div class="tb gr" data-a="soft" aria-label="Soft drop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="5,8 12,15 19,8"/></svg><span>SOFT</span></div>
+  <div class="tb yl" data-a="hard" aria-label="Hard drop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6,3 12,9 18,3"/><polyline points="6,10 12,16 18,10"/><line x1="4" y1="21" x2="20" y2="21"/></svg><span>DROP</span></div>
+  <div class="tb pk" data-a="ccw" aria-label="Rotate left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 9.5A7.5 7.5 0 1 1 5 14"/><polyline points="4,4 5.5,9.5 11,8.5"/></svg></div>
+  <div class="tb pk" data-a="cw" aria-label="Rotate right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18.5 9.5A7.5 7.5 0 1 0 19 14"/><polyline points="20,4 18.5,9.5 13,8.5"/></svg></div>
+  <div class="tb" data-a="hold" aria-label="Hold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h14"/><polyline points="14,4 18,8 14,12"/><path d="M20 16H6"/><polyline points="10,12 6,16 10,20"/></svg><span>HOLD</span></div>
+</div>
+<button class="topb" id="bPause" aria-label="Pause"><svg viewBox="0 0 24 24" fill="#fff"><rect x="5" y="4" width="5" height="16" rx="1.5"/><rect x="14" y="4" width="5" height="16" rx="1.5"/></svg></button>
+<button class="topb" id="bMute" aria-label="Mute"></button>
+<div id="ui"></div>
+<script>
+"use strict";
