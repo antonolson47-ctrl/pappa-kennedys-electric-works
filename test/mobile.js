@@ -105,7 +105,7 @@ const J = o => JSON.stringify(o);
   await tap('#tc .tb[data-a=hard]'); await p.waitForTimeout(1600);
   s = await G(); ok(s.phase === 'connect' && s.lines >= s.target, 'target reached -> connection made, object lights (' + s.phase + ')');
   await p.waitForTimeout(1400); await p.screenshot({ path: `${SHOTS}/${which}_portrait_lit_open_sign.png` });
-  await p.touchscreen.tap(200, 200); await p.waitForTimeout(300); s = await G();
+  await p.waitForFunction(() => __PK.G.phase === 'connect' && __PK.G.phaseT > 2.6, null, { timeout: 8000 }).catch(() => { }); await p.touchscreen.tap(200, 200); await p.waitForTimeout(300); s = await G();
   ok(s.level === 2 && s.phase === 'intro', 'tap after celebration -> level 2 intro');
   // ---- disco ball lit (level 3) and Christmas tree (level 10), portrait + landscape
   // (muted for the fast-forwards: Playwright's Linux WebKit can crash under sustained audio load)
@@ -117,7 +117,7 @@ const J = o => JSON.stringify(o);
   await p.screenshot({ path: `${SHOTS}/${which}_portrait_lit_xmas_tree.png` });
   await p.setViewportSize(P.land.viewport); await p.waitForTimeout(800); await noScroll('landscape celebration');
   await p.screenshot({ path: `${SHOTS}/${which}_landscape_lit_xmas_tree.png` });
-  await p.touchscreen.tap(300, 200); await p.waitForTimeout(800); ok(await sc() === 'victory', 'tap after tree -> victory screen');
+  await p.waitForFunction(() => __PK.G.phaseT > 2.6, null, { timeout: 8000 }).catch(() => { }); await p.touchscreen.tap(300, 200); await p.waitForTimeout(800); ok(await sc() === 'victory', 'tap after tree -> victory screen');
   ok(await ev(() => { const s = document.querySelector('.sheet'); if (!s) return false; const q = s.getBoundingClientRect(); return q.top >= 0 && q.bottom <= innerHeight + 1 && q.left >= 0 && q.right <= innerWidth + 1; }), 'landscape: victory sheet fits the screen');
   await p.waitForTimeout(800); await p.screenshot({ path: `${SHOTS}/${which}_landscape_victory.png` });
   await p.setViewportSize(P.port.viewport); await p.waitForTimeout(800); await p.screenshot({ path: `${SHOTS}/${which}_portrait_victory.png` });
